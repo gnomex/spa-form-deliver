@@ -7,6 +7,7 @@ var smtp = process.env.SMTPCREDENTIALS || '';
 var transporter = nodemailer.createTransport(smtp);
 
 var SECRET = process.env.SPASECRET || '';
+var SENDTO = process.env.EMAILS || '';
 
 router.post('/deliverforme', function(req, res, next) {
   var data = req.body;
@@ -26,7 +27,7 @@ router.post('/deliverforme', function(req, res, next) {
                 ].join(' ');
 
   var mailOptions = {
-    to: 'kenner.hp@gmail.com',
+    to: SENDTO,
     from: [data['form[name]'],"<",data['form[email]'],">"].join(' '),
     subject: data['form[subject]'],
     text: message
