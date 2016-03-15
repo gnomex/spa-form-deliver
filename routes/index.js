@@ -13,15 +13,20 @@ router.post('/deliverforme', function(req, res, next) {
 
   var data = req.body;
   var sended_at = new Date(data.timestamp);
-  var received_at = Date.now();
+  var received_at = new Date(Date.now());
 
-  var message = ["Nova mensagem através do site.\n\n", data['form[content]'], "\n\n", "Enviado em ", sended_at.toString(), ". Processado em ", received_at.toString()].join(' ');
+  var message = [data['form[content]'],
+                  "\n\nEnviado em ",
+                  sended_at.toString(),
+                  ". Processado em ",
+                  received_at.toString()
+                ].join(' ');
 
   var mailOptions = {
     to: 'kenner.hp@gmail.com',
     from: [data['form[name]'],"<",data['form[email]'],">"].join(' '),
     subject: data['form[subject]'],
-    text: message;
+    text: message
   };
 
   transporter.sendMail(mailOptions, function(error, info){
