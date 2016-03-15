@@ -11,6 +11,8 @@ var SECRET = process.env.SPASECRET || '';
 router.post('/deliverforme', function(req, res, next) {
   var data = req.body;
 
+  console.log("##\n\n", data, "\n\n##");
+
   if (data.key !== SECRET) { res.status(400).send(); }
 
   var sended_at = new Date(data.timestamp);
