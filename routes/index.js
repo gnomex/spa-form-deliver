@@ -15,7 +15,7 @@ router.post('/deliverforme', function(req, res, next) {
 
   if (data.key !== SECRET) { res.status(400).send(); }
 
-  var sended_at = new Date(data.timestamp);
+  var sended_at = new Date(parseFloat(data.timestamp));
   var received_at = new Date(Date.now());
 
   var message = [data['form[content]'],
