@@ -3,7 +3,7 @@ var router = express.Router();
 var nodemailer = require('nodemailer');
 
 // create reusable transporter object using the default SMTP transport
-var smtp = normalizePort(process.env.SMTPCREDENTIALS || '');
+var smtp = process.env.SMTPCREDENTIALS || '';
 var transporter = nodemailer.createTransport(smtp);
 
 var SECRET = process.env.SPASECRET || '';
