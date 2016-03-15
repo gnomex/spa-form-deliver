@@ -13,7 +13,7 @@ router.post('/deliverforme', function(req, res, next) {
   var data = req.body;
 
   var mailOptions = {
-    to: 'kenner.hp@gmail.com, anb.bernardes@gmail.com',
+    to: 'kenner.hp@gmail.com',
     from: [data['form[name]'],"<",data['form[email]'],">"].join(' '),
     subject: data['form[subject]'],
     text: data['form[content]']
@@ -21,12 +21,10 @@ router.post('/deliverforme', function(req, res, next) {
 
   transporter.sendMail(mailOptions, function(error, info){
     if(error){
-        return console.log(error);
+        res.status(403).send(error);
     }
-    console.log('Message sent: ' + info.response);
+    res.send(info.response);
   });
-
-  res.status(201).send();
 });
 
 module.exports = router;
