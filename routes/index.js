@@ -9,9 +9,10 @@ var transporter = nodemailer.createTransport(smtp);
 var SECRET = process.env.SPASECRET || '';
 
 router.post('/deliverforme', function(req, res, next) {
-  if (req.body.key !== SECRET) { res.status(400).send(); }
-
   var data = req.body;
+
+  if (data.key !== SECRET) { res.status(400).send(); }
+
   var sended_at = new Date(data.timestamp);
   var received_at = new Date(Date.now());
 
