@@ -31,11 +31,10 @@ router.post('/deliverforme', function(req, res, next) {
   };
 
   transporter.sendMail(mailOptions, function(error, info){
-    if(error){
-        res.status(403).send(error);
-    }
-    res.send(info.response);
+    if(error) { res.status(403).send(); }
   });
+
+  res.status(201).send();
 });
 
 module.exports = router;
