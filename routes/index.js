@@ -12,9 +12,9 @@ var SENDTO = process.env.EMAILS || '';
 router.post('/deliverforme', function(req, res, next) {
   var data = req.body;
 
-  console.log("##\n\n", data, "\n\n##");
+  if (data.key && data.timestamp && data['form[content]'] && data['form[name]'] && data['form[email]'] ) { res.sendStatus(404); }
 
-  if (data.key !== SECRET) { res.status(400).send(); }
+  if (data.key !== SECRET) { res.sendStatus(400); }
 
   var sended_at = new Date(parseFloat(data.timestamp));
   var received_at = new Date(Date.now());
@@ -34,10 +34,10 @@ router.post('/deliverforme', function(req, res, next) {
   };
 
   transporter.sendMail(mailOptions, function(error, info){
-    if(error) { res.status(403).send(); }
+    if(error) { res.sendStatus(403); }
   });
 
-  res.status(201).send();
+  res.sendStatus(201);
 });
 
 module.exports = router;
