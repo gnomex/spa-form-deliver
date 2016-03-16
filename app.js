@@ -4,8 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var cors = require('cors');
-var CORSORIGIN = process.env.CORS || '*';
 var routes = require('./routes/index');
 
 var app = express();
@@ -22,13 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-var corsOptions = {
-  origin: CORSORIGIN,
-  methods: 'POST'
-};
-
-app.use(cors(corsOptions));
 app.use('/', routes);
 
 // catch 404 and forward to error handler
