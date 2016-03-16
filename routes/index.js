@@ -20,6 +20,7 @@ var SENDTO = process.env.EMAILS || '';
 function validate_data(req, res, next) {
   var data = req.body;
   if (data.key || data.timestamp || data['form[content]'] || data['form[name]'] || data['form[email]'] ) {
+    console.log("Invalid post: ", data);
     res.sendStatus(404);
   } else {
     next();
@@ -45,9 +46,15 @@ function deliver_email(req, res, next) {
     text: message
   };
 
-  transporter.sendMail(mailOptions, function(error, info){
-    if(error) { res.sendStatus(403); }
+  console.log("Preparing mail, see: ", mailOptions);
 
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error) {
+      console.log("Error, email not sent");
+      res.sendStatus(403);
+    }
+
+    console.log("Email sent");
     res.sendStatus(201);
   });
 }
@@ -55,6 +62,7 @@ function deliver_email(req, res, next) {
 router.post('/deliverforme', cors(corsOptions), validate_data, function(req, res, next) {
 
   if (req.body.key !== SECRET) {
+    console.log("Invalid token: ", req.body);
     res.sendStatus(400);
   } else  {
     next();
