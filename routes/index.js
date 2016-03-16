@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
 var cors = require('cors');
-var CORSORIGIN = process.env.CORS || '*';
+// var CORSORIGIN = process.env.CORS || '*';
+var CORSORIGIN = '*';
 
 var corsOptions = {
   origin: CORSORIGIN,
