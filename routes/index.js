@@ -18,7 +18,7 @@ var SENDTO = process.env.EMAILS || '';
 
 function validate_data(req, res, next) {
   var data = req.body;
-  if (data.key && data.timestamp && data['form[content]'] && data['form[name]'] && data['form[email]'] ) {
+  if (data.key || data.timestamp || data['form[content]'] || data['form[name]'] || data['form[email]'] ) {
     res.sendStatus(404);
   } else {
     next();
