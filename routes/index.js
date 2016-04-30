@@ -30,7 +30,13 @@ function deliver_email(req, res, next) {
   var sent_at = new Date(parseFloat(data.timestamp));
   var received_at = new Date(Date.now());
 
-  var message = [data['form[content]'],
+  var phone = data['form[phone]'] || 'não informado';
+
+  var message = [data['form[name]'],
+                  ', telefone: ',
+                  phone,
+                  ', tem uma dúvida:\n',
+                  data['form[content]'],
                   "\n\nEnviado em ",
                   sent_at.toString(),
                   ". Processado em ",
