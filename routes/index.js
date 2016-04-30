@@ -57,8 +57,8 @@ function deliver_email(req, res, next) {
       console.log("Error, email not sent");
       res.sendStatus(403);
     }
-    // res.sendStatus(200);
-    res.status(200).send(info);
+    // 200 for Ajax call, 201 for confirmation
+    res.status(200).send({"status": 201,"message": "Created"});
   });
 }
 
