@@ -1,10 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var nodemailer = require('nodemailer');
-var cors = require('cors');
+var express     = require('express');
+var router      = express.Router();
+var nodemailer  = require('nodemailer');
+var cors        = require('cors');
 // var CORSORIGIN = process.env.CORS || '*';
-var CORSORIGIN = '*';
-
+var CORSORIGIN  = '*';
 var corsOptions = {
   origin: CORSORIGIN,
   methods: 'POST'
@@ -22,19 +21,18 @@ function validate_data(req, res, next) {
   if (!data.key || !data.timestamp || !data['form[content]'] || !data['form[name]'] || !data['form[email]'] ) {
     console.log("Invalid post: ", data);
     res.sendStatus(404);
-  } else {
-    next();
   }
+  next();
 }
 
 function deliver_email(req, res, next) {
   var data = req.body;
-  var sended_at = new Date(parseFloat(data.timestamp));
+  var sent_at = new Date(parseFloat(data.timestamp));
   var received_at = new Date(Date.now());
 
   var message = [data['form[content]'],
                   "\n\nEnviado em ",
-                  sended_at.toString(),
+                  sent_at.toString(),
                   ". Processado em ",
                   received_at.toString()
                 ].join(' ');
@@ -53,21 +51,17 @@ function deliver_email(req, res, next) {
       console.log("Error, email not sent");
       res.sendStatus(403);
     }
-
-    console.log("Email sent");
-    res.sendStatus(201);
+    // res.sendStatus(200);
+    res.status(200).send(info);
   });
 }
 
 router.post('/deliverforme', cors(corsOptions), validate_data, function(req, res, next) {
-
-  if (req.body.key !== SECRET) {
-    console.log("Invalid token: ", req.body);
-    res.sendStatus(400);
-  } else  {
+    if (req.body.key !== SECRET) {
+      console.log("Invalid token: ", req.body);
+      res.sendStatus(400);
+    }
     next();
-  }
-
-}, deliver_email);
+  }, deliver_email);
 
 module.exports = router;
